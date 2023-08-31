@@ -13,31 +13,31 @@ menu_inicio = (f"""
     [4] Nova conta 
     [5] Listar contas
     [6] Novo usuário           
-    [7] Sair
+    [7] Sair         
     """)
 
-print(menu_inicio)
+#print(menu_inicio)
+print(textwrap.dedent(menu_inicio))
 
-
-def saque (*, saldo, valor, extrato, limite, numero_saque, limite_saque):
+def saque (*, saldo, valor, extrato, limite, numero_saque, limite_saques):
     excedeu_saldo = valor > saldo
     excedeu_limite = valor > limite
-    excedeu_saque = numero_saque >= limite_saque
+    excedeu_saque = numero_saque >= limite_saques
 
     if excedeu_saldo:
         print('Saldo insuficiente')
 
     elif excedeu_limite:
         print('O seu limite de saque é de 500 reais, refaça a operação')
-                
+
     elif excedeu_saque:
         print('Você ultrapassou o seu limite de saque, você pode fazer 3 operações de saque por dia')
-
+                
     elif valor > 0: 
         saldo = saldo - valor
         extrato += f"Saque: R$ {valor:.2f}\n "
-        numero_saque += 1
-        print("\n=== Saque realizado com sucesso! ===")
+        numero_saque = numero_saque + 1
+        print("\nSaque realizado com sucesso!")
         
     else:
         print("Operação falhou, valor negativo")
@@ -48,7 +48,7 @@ def deposito (saldo, valor, extrato, /):
     if valor > 0:
         saldo = valor + saldo
         extrato += f"Deposito: R$ {valor:.2f}\n "
-        print("\n=== Depósito realizado com sucesso! ===")
+        print("\nDepósito realizado!")
     else:
         print("Valor negativo, não é possível depositar")
     
@@ -70,7 +70,7 @@ def nova_conta (agencia, numero_conta, usuarios):
         print("Conta criada com sucesso")
         return {"agencia": agencia, "numero_conta": numero_conta, "usuario": usuario}
         
-    print("\n@@@ Usuário não encontrado, fluxo de criação de conta encerrado! @@@")
+    print("\nUsuário não encontrado, fluxo de criação de conta finalizado!")
         
 def listar_contas (contas):
     for conta in contas:
@@ -117,10 +117,10 @@ def main():
     contas = []
     
     while escolha_menu  != 0:
-        escolha_menu = int(input("Digite o número da operação escolhida:"))
+        escolha_menu = int(input("Digite o número da operação escolhida: "))
 
         if escolha_menu == 1:
-            valor = float(input("Você escolheu saque, digite quanto deseja sacar:\n"))
+            valor = float(input("Você escolheu saque, digite quanto deseja sacar: \n"))
 
             saldo, extrato = saque (
                 saldo=saldo, 
@@ -128,7 +128,7 @@ def main():
                 extrato=extrato,
                 limite=limite,
                 numero_saque=numero_saque,
-                limite_saque=LIMITE_SAQUES,
+                limite_saques=LIMITE_SAQUES,
             )
         
         elif escolha_menu == 2:
